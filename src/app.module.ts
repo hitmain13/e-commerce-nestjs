@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import UserEntities from './user/entities';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -15,7 +14,16 @@ import { UserModule } from './user/user.module';
       port: Number(process.env.DB_PORT),
       username: process.env.DB_USERNAME,
       synchronize: true,
-      entities: UserEntities,
+      // entities: UserEntities,
+      // migrations: [
+      //   CreateTableUser1699961124522,
+      //   CreateTableState1700010993561,
+      //   CreateTableCity1700010998937,
+      //   CreateTableAddress1700011002432,
+      // ],
+      entities: [`${__dirname}/**/*.entity{.ts,.js}`],
+      migrations: [`${__dirname}/migration/{*.ts.,*.js}`],
+      migrationsRun: true,
     }),
     UserModule,
   ],
